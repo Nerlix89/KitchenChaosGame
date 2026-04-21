@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Отображает стопку тарелок на стойке.
+/// </summary>
 public class PlatesCounterVisual : MonoBehaviour
 {
     [SerializeField] private PlatesCounter platesCounter;
@@ -9,17 +12,26 @@ public class PlatesCounterVisual : MonoBehaviour
 
     private List<GameObject> plateVusialGameObjectList;
 
+    /// <summary>
+    /// Инициализирует список визуальных объектов тарелок.
+    /// </summary>
     private void Awake()
     {
         plateVusialGameObjectList = new List<GameObject>();
     }
 
+    /// <summary>
+    /// Подписывается на события появления и удаления тарелок.
+    /// </summary>
     private void Start()
     {
         platesCounter.OnPlateSpawned += PlatesCounter_OnPlateSpawned;
         platesCounter.OnPlateRemoved += PlatesCounter_OnPlateRemoved;
     }
 
+    /// <summary>
+    /// Добавляет новый визуальный объект тарелки в стопку.
+    /// </summary>
     private void PlatesCounter_OnPlateSpawned()
     {
         Transform plateVisualTransform = Instantiate(plateVisualPrefab, counterTopPoint);
@@ -30,6 +42,9 @@ public class PlatesCounterVisual : MonoBehaviour
         plateVusialGameObjectList.Add(plateVisualTransform.gameObject);
     }
 
+    /// <summary>
+    /// Удаляет верхний визуальный объект тарелки из стопки.
+    /// </summary>
     private void PlatesCounter_OnPlateRemoved()
     {
         GameObject plateGameObject = plateVusialGameObjectList[plateVusialGameObjectList.Count - 1];

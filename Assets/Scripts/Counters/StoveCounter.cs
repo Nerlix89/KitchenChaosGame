@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Плита, которая жарит ингредиенты и может пережарить их до сгоревшего состояния.
+/// </summary>
 public class StoveCounter : BaseCounter, IHasProgress
 {
     public event Action<State> OnStateChanged;
@@ -22,11 +25,17 @@ public class StoveCounter : BaseCounter, IHasProgress
     private BurningRecipeSO burningRecipeSO;
     private State currentState;
 
+    /// <summary>
+    /// Переводит плиту в начальное состояние.
+    /// </summary>
     private void Start()
     {
         SetState(State.Idle);
     }
 
+    /// <summary>
+    /// Обновляет логику жарки или подгорания в зависимости от состояния.
+    /// </summary>
     private void Update()
     {
         switch(currentState)
@@ -47,6 +56,9 @@ public class StoveCounter : BaseCounter, IHasProgress
         }
     }
 
+    /// <summary>
+    /// Принимает ингредиент на плиту или отдает готовый предмет игроку.
+    /// </summary>
     public override void Interact(PlayerCharacter player)
     {
         if (!HasKitchenObject())
@@ -86,6 +98,9 @@ public class StoveCounter : BaseCounter, IHasProgress
         }
     }
 
+    /// <summary>
+    /// Проверяет, существует ли рецепт жарки для указанного ингредиента.
+    /// </summary>
     private bool HasFryingRecupeSOWithInput(KitchenObjectSO inputKitchenObjectSO)
     {
         FryingRecipeSO fryingRecipeSO = GetFryingRecipeSOWithInput(inputKitchenObjectSO);
@@ -93,6 +108,9 @@ public class StoveCounter : BaseCounter, IHasProgress
 
         return true;
     }
+    /// <summary>
+    /// Возвращает результат жарки для указанного ингредиента.
+    /// </summary>
     private KitchenObjectSO GetOutputForInput(KitchenObjectSO inputKitchenObjectSO)
     {
         FryingRecipeSO fryingRecipeSO = GetFryingRecipeSOWithInput(inputKitchenObjectSO);
@@ -101,6 +119,9 @@ public class StoveCounter : BaseCounter, IHasProgress
         return fryingRecipeSO.output;
     }
 
+    /// <summary>
+    /// Находит рецепт жарки по входному ингредиенту.
+    /// </summary>
     private FryingRecipeSO GetFryingRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO)
     {
         foreach (FryingRecipeSO fryingRecipeSO in fryingRecipeSOArray)
@@ -113,6 +134,9 @@ public class StoveCounter : BaseCounter, IHasProgress
         return null;
     }
 
+    /// <summary>
+    /// Находит рецепт подгорания по текущему приготовленному ингредиенту.
+    /// </summary>
         private BurningRecipeSO GetBurningRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO)
     {
         foreach (BurningRecipeSO burningRecipeSO in burningRecipeSOArray)
@@ -125,12 +149,18 @@ public class StoveCounter : BaseCounter, IHasProgress
         return null;
     }
 
+    /// <summary>
+    /// Меняет состояние плиты и сообщает подписчикам.
+    /// </summary>
     private void SetState(State newState)
     {
         currentState = newState;
         if (OnStateChanged != null) OnStateChanged(currentState);
     }
 
+    /// <summary>
+    /// Обрабатывает таймер жарки и заменяет ингредиент на готовый.
+    /// </summary>
     private void FryingLogic()
     {
         if (HasKitchenObject())
@@ -148,6 +178,9 @@ public class StoveCounter : BaseCounter, IHasProgress
         }
     }
 
+    /// <summary>
+    /// Обрабатывает таймер подгорания и заменяет ингредиент на сгоревший.
+    /// </summary>
     private void BurningLogic()
     {
         if (HasKitchenObject())

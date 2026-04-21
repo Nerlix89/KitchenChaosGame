@@ -2,17 +2,26 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Отображает один ожидающий рецепт в интерфейсе заказов.
+/// </summary>
 public class DeliveryManagerSingleUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI recipeNameText;
     [SerializeField] private Transform iconContainer;
     [SerializeField] private Transform iconTemplate;
 
+    /// <summary>
+    /// Скрывает шаблон иконки ингредиента.
+    /// </summary>
     private void Start()
     {
         iconTemplate.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Заполняет UI названием рецепта и иконками ингредиентов.
+    /// </summary>
     public void SetRecipeSO(RecipeSO recipeSO)
     {
         recipeNameText.text = recipeSO.recipeName;

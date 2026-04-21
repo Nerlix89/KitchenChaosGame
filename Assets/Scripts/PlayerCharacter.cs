@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Управляет движением, взаимодействиями и переносом предметов игроком.
+/// </summary>
 public class PlayerCharacter : MonoBehaviour, IKitchenObjectParent
 {
 
@@ -19,17 +22,26 @@ public class PlayerCharacter : MonoBehaviour, IKitchenObjectParent
     private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
 
+    /// <summary>
+    /// Инициализирует singleton игрока.
+    /// </summary>
     private void Awake()
     {
         Instance = this;
     }
 
+    /// <summary>
+    /// Подписывает игрока на события ввода.
+    /// </summary>
     private void Start()
     {
         gameInput.OnInteractAction += GameInput_OnInteractAction;
         gameInput.OnInteractAlternativeAction += GameInput_OnInteractAlternativeAction;
     }
 
+    /// <summary>
+    /// Выполняет основное взаимодействие с выбранной стойкой.
+    /// </summary>
     private void GameInput_OnInteractAction(object sender, System.EventArgs e)
     {
         if (selectedCounter != null)
@@ -38,6 +50,9 @@ public class PlayerCharacter : MonoBehaviour, IKitchenObjectParent
         }
     }
 
+    /// <summary>
+    /// Выполняет альтернативное взаимодействие с выбранной стойкой.
+    /// </summary>
     private void GameInput_OnInteractAlternativeAction(object sender, System.EventArgs e)
     {
         if (selectedCounter != null)
@@ -46,14 +61,23 @@ public class PlayerCharacter : MonoBehaviour, IKitchenObjectParent
         }
     }
 
+    /// <summary>
+    /// Обновляет движение игрока и поиск доступного взаимодействия.
+    /// </summary>
     private void Update()
     {
         HandleMovement();
         HandleInteractions();
     }
 
+    /// <summary>
+    /// Возвращает, двигается ли игрок в текущем кадре.
+    /// </summary>
     public bool GetIsWalking() {return IsWalking;}
 
+    /// <summary>
+    /// Обрабатывает движение, столкновения и поворот игрока.
+    /// </summary>
     private void HandleMovement()
     {
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
@@ -100,6 +124,9 @@ public class PlayerCharacter : MonoBehaviour, IKitchenObjectParent
         transform.forward = Vector3.Slerp(transform.forward, movementDirection, rotationSpeed * Time.deltaTime);
     }
 
+    /// <summary>
+    /// Определяет стойку перед игроком, с которой можно взаимодействовать.
+    /// </summary>
     private void HandleInteractions()
     {
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
@@ -132,19 +159,40 @@ public class PlayerCharacter : MonoBehaviour, IKitchenObjectParent
         }
     }
 
+    /// <summary>
+    /// Назначает выбранную стойку и сообщает об этом визуальным системам.
+    /// </summary>
     private void SetSelectedCounter(BaseCounter newSelectedCounter)
     {
         selectedCounter = newSelectedCounter;
         if (OnSelectedCounterChanged != null) OnSelectedCounterChanged(selectedCounter);
     }
 
+    /// <summary>
+    /// Возвращает точку, в которой игрок держит кухонный предмет.
+    /// </summary>
     public Transform GetKitchenObjectFollowTransform()
     {
         return KitchenObjectHoldPoint;
     }
 
+    /// <summary>
+    /// Возвращает предмет, который находится у игрока.
+    /// </summary>
     public KitchenObject GetKitchenObject() {return kitchenObject;}
+
+    /// <summary>
+    /// Назначает игроку новый кухонный предмет.
+    /// </summary>
     public void SetKitchenObject(KitchenObject newKitchenObject) {kitchenObject = newKitchenObject;}
+
+    /// <summary>
+    /// Очищает ссылку на предмет у игрока.
+    /// </summary>
     public void ClearKitchenObject() {kitchenObject = null;}
+
+    /// <summary>
+    /// Проверяет, держит ли игрок кухонный предмет.
+    /// </summary>
     public bool HasKitchenObject() {return kitchenObject != null;}
 }

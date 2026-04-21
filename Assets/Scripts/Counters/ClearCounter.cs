@@ -1,9 +1,15 @@
 using UnityEngine;
 
+/// <summary>
+/// Обычная стойка для временного хранения предметов и перекладывания ингредиентов.
+/// </summary>
 public class ClearCounter : BaseCounter
 {
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
 
+    /// <summary>
+    /// Перекладывает предметы между игроком, стойкой и тарелкой.
+    /// </summary>
     public override void Interact(PlayerCharacter player)
     {
         if (!HasKitchenObject())

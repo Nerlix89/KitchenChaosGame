@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Меняет визуальное состояние стойки, когда игрок выбирает ее для взаимодействия.
+/// </summary>
 public class ChangeCounterVisual : MonoBehaviour
 {
     private enum ChangeMode
@@ -16,11 +19,17 @@ public class ChangeCounterVisual : MonoBehaviour
     [SerializeField] private Material baseMaterial;
     [SerializeField] private Material interactMaterial;
 
+    /// <summary>
+    /// Подписывается на событие смены выбранной стойки игроком.
+    /// </summary>
     void Start()
     {
        PlayerCharacter.Instance.OnSelectedCounterChanged += PlayerCharacter_OnSelectedCounterChanged;
     }
 
+    /// <summary>
+    /// Обновляет материал или контур в зависимости от выбранной стойки.
+    /// </summary>
     private void PlayerCharacter_OnSelectedCounterChanged(BaseCounter selectedCounter)
     {
         switch (changeMode)
@@ -51,6 +60,9 @@ public class ChangeCounterVisual : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Применяет материал ко всем визуальным объектам стойки.
+    /// </summary>
     private void ChangeMaterial(Material newMaterial)
     {
         foreach (GameObject visualGameObject in visualGameObjects)
@@ -66,6 +78,9 @@ public class ChangeCounterVisual : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Включает или выключает объекты контура стойки.
+    /// </summary>
     private void ChangeOutlineVisibility(bool newVisibility)
     {
         foreach (GameObject visualGameObject in visualGameObjects)

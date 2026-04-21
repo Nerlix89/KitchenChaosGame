@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
+/// <summary>
+/// Управляет очередью заказов и посетителями, которые ждут готовые блюда.
+/// </summary>
 public class DeliveryManager : MonoBehaviour
 {
     public static DeliveryManager Instance {get; private set;}
@@ -24,6 +27,9 @@ public class DeliveryManager : MonoBehaviour
     private float spawnRecipeTimer;
     private AICharacter aiCharacterInQueue;
 
+    /// <summary>
+    /// Инициализирует singleton и список ожидающих рецептов.
+    /// </summary>
     private void Awake()
     {
         Instance = this;
@@ -31,11 +37,17 @@ public class DeliveryManager : MonoBehaviour
         waitingRecipeSOList = new List<RecipeSO>();
     }
 
+    /// <summary>
+    /// Создает первого посетителя в очереди.
+    /// </summary>
     private void Start()
     {
         UpdateAICharactersQueue();
     }
 
+    /// <summary>
+    /// Периодически добавляет новые заказы, пока очередь рецептов не заполнена.
+    /// </summary>
     private void Update()
     {
         if (waitingRecipeSOList.Count < waitingRecipesMax)
@@ -53,6 +65,9 @@ public class DeliveryManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Проверяет тарелку на совпадение с ожидающими рецептами и завершает заказ при успехе.
+    /// </summary>
     public bool DeliverRecipe(PlateKitchenObject plateKitchenObject)
     {
         for (int i = 0; i < waitingRecipeSOList.Count; i++)
@@ -83,11 +98,17 @@ public class DeliveryManager : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Возвращает список рецептов, которые сейчас ожидают доставки.
+    /// </summary>
     public List<RecipeSO> GetWaitingRecipeSOList()
     {
         return waitingRecipeSOList;
     }
 
+    /// <summary>
+    /// Обновляет посетителя в очереди и создает нового у точки появления.
+    /// </summary>
     public void UpdateAICharactersQueue()
     {
         if (aiCharacterInQueue != null)
@@ -98,6 +119,9 @@ public class DeliveryManager : MonoBehaviour
         aiCharacterInQueue = Instantiate(aICharacterPrefab, aICharacterSpawnPoint.position, Quaternion.identity).GetComponent<AICharacter>();
     }
 
+    /// <summary>
+    /// Передает предмет из рук игрока текущему посетителю.
+    /// </summary>
     public void GiveKitchenObjectToAICharacter(PlayerCharacter player)
     {
         if (aiCharacterInQueue == null) return;
@@ -106,11 +130,17 @@ public class DeliveryManager : MonoBehaviour
         aiCharacterInQueue.SetCharacterState(AICharacter.CharacterState.LeavingQueue);
     }
 
+    /// <summary>
+    /// Возвращает точку, в которой посетитель должен стоять в очереди.
+    /// </summary>
     public Transform GetQueueStandPoint()
     {
         return queueStandPoint;
     }
 
+    /// <summary>
+    /// Возвращает случайную точку ухода посетителя.
+    /// </summary>
     public Transform GetRandomLeavePoint()
     {
         Transform leavePoint = aICharacterLeavePoints[UnityEngine.Random.Range(0, aICharacterLeavePoints.Count)];

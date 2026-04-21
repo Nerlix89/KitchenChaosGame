@@ -1,6 +1,9 @@
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Стойка, которая накапливает чистые тарелки и выдает их игроку.
+/// </summary>
 public class PlatesCounter : BaseCounter
 {
     public event Action OnPlateSpawned;
@@ -14,6 +17,9 @@ public class PlatesCounter : BaseCounter
     private int currentPlateSpawnedAmount;
     
 
+    /// <summary>
+    /// Периодически добавляет новую тарелку до максимального количества.
+    /// </summary>
     private void Update()
     {
         currentSpawnPlateTimer += Time.deltaTime;
@@ -27,6 +33,9 @@ public class PlatesCounter : BaseCounter
             }
         }
     }
+    /// <summary>
+    /// Выдает тарелку игроку, если у него свободны руки.
+    /// </summary>
     public override void Interact(PlayerCharacter player)
     {
         if (!player.HasKitchenObject())

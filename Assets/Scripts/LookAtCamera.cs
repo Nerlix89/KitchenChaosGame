@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Поворачивает объект к камере выбранным способом.
+/// </summary>
 public class LookAtCamera : MonoBehaviour
 {
     private enum Mode
@@ -12,6 +15,9 @@ public class LookAtCamera : MonoBehaviour
 
     [SerializeField] private Mode mode;
 
+    /// <summary>
+    /// Обновляет направление объекта после перемещения камеры.
+    /// </summary>
     private void LateUpdate()
     {
         switch(mode)

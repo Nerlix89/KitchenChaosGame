@@ -1,6 +1,9 @@
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Стойка для нарезки ингредиентов с отслеживанием прогресса.
+/// </summary>
 public class CuttingCounter : BaseCounter, IHasProgress
 {
     public event Action<float> OnProgressChanged;
@@ -8,6 +11,9 @@ public class CuttingCounter : BaseCounter, IHasProgress
     [SerializeField] private CuttingRecipeSO[] cuttingRecipeSOArray;
     private int cuttingProgress;
 
+    /// <summary>
+    /// Принимает ингредиент для нарезки или возвращает готовый предмет игроку.
+    /// </summary>
     public override void Interact(PlayerCharacter player)
     {
         if (!HasKitchenObject())
@@ -42,6 +48,9 @@ public class CuttingCounter : BaseCounter, IHasProgress
         }
     }
 
+    /// <summary>
+    /// Выполняет один шаг нарезки текущего ингредиента.
+    /// </summary>
     public override void InteractAlternative(PlayerCharacter player)
     {
         if (HasKitchenObject())
@@ -65,6 +74,9 @@ public class CuttingCounter : BaseCounter, IHasProgress
         }
     }
 
+    /// <summary>
+    /// Проверяет, существует ли рецепт нарезки для указанного ингредиента.
+    /// </summary>
     private bool HasCuttingRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO)
     {
         CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(inputKitchenObjectSO);
@@ -73,6 +85,9 @@ public class CuttingCounter : BaseCounter, IHasProgress
         return true;
     }
 
+    /// <summary>
+    /// Возвращает результат нарезки для указанного ингредиента.
+    /// </summary>
     private KitchenObjectSO GetOutputForInput(KitchenObjectSO inputKitchenObjectSO)
     {
         CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(inputKitchenObjectSO);
@@ -81,6 +96,9 @@ public class CuttingCounter : BaseCounter, IHasProgress
         return cuttingRecipeSO.output;
     }
 
+    /// <summary>
+    /// Находит рецепт нарезки по входному ингредиенту.
+    /// </summary>
     private CuttingRecipeSO GetCuttingRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO)
     {
         foreach (CuttingRecipeSO cuttingRecipeSO in cuttingRecipeSOArray)
@@ -93,6 +111,9 @@ public class CuttingCounter : BaseCounter, IHasProgress
         return null;
     }
 
+    /// <summary>
+    /// Возвращает прогресс нарезки в диапазоне от 0 до 1.
+    /// </summary>
     private float GetNormalizedCuttingProgress()
     {
         CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());

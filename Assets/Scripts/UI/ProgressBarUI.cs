@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Отображает прогресс объекта, реализующего IHasProgress.
+/// </summary>
 public class ProgressBarUI : MonoBehaviour
 {
     [SerializeField] private GameObject hasProgressGameObject;
@@ -8,6 +11,9 @@ public class ProgressBarUI : MonoBehaviour
 
     private IHasProgress hasProgress;
 
+    /// <summary>
+    /// Находит источник прогресса, подписывается на событие и скрывает шкалу.
+    /// </summary>
     private void Start()
     {
         hasProgress = hasProgressGameObject.GetComponent<IHasProgress>();
@@ -21,6 +27,9 @@ public class ProgressBarUI : MonoBehaviour
         Hide();
     }
 
+    /// <summary>
+    /// Обновляет заполнение шкалы и видимость по текущему прогрессу.
+    /// </summary>
     private void HasProgress_OnProgressChanged(float currentProgress)
     {
         barImage.fillAmount = currentProgress;
@@ -35,11 +44,17 @@ public class ProgressBarUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Показывает шкалу прогресса.
+    /// </summary>
     private void Show()
     {
         gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Скрывает шкалу прогресса.
+    /// </summary>
     private void Hide()
     {
          gameObject.SetActive(false);
