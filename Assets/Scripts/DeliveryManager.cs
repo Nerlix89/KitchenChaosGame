@@ -26,6 +26,7 @@ public class DeliveryManager : MonoBehaviour
     private List<RecipeSO> waitingRecipeSOList;
     private float spawnRecipeTimer;
     private AICharacter aiCharacterInQueue;
+    private int successfuulRecipesAmount;
 
     /// <summary>
     /// Инициализирует singleton и список ожидающих рецептов.
@@ -90,6 +91,7 @@ public class DeliveryManager : MonoBehaviour
                 if (ingredientsCounter == waitingRecipeSO.kitchenObjectSOList.Count)
                 {
                     waitingRecipeSOList.RemoveAt(i);
+                    successfuulRecipesAmount++;
                     if (OnRecipeCompleted != null) OnRecipeCompleted();
                     return true;
                 }
@@ -145,6 +147,11 @@ public class DeliveryManager : MonoBehaviour
     {
         Transform leavePoint = aICharacterLeavePoints[UnityEngine.Random.Range(0, aICharacterLeavePoints.Count)];
         return leavePoint;
+    }
+
+    public int GetSuccessfuulRecipesAmount()
+    {
+        return successfuulRecipesAmount;
     }
     
 }
